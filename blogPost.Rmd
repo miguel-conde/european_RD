@@ -1,0 +1,168 @@
+---
+title: 'I+D+I EN ESPAÑA: ¿QUE INVENTEN ELLOS?'
+subtitle: "Invertir o no invertir en I+D+i"
+author: "Miguel Conde"
+date: "26 de mayo de 2017"
+output: 
+  html_document:
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+La expresión [¡Que inventen ellos!][QIE] sirve para resumir la realidad de la Ciencia y la Tecnología en España desde la [Revolución Científica][LRC] hasta hoy.
+
+La crisis internacional que se inició entre 2007 y 2008 ha vuelto a poner sobre la mesa esta realidad: por un lado, por ejemplo, se [reivindica el mantenimiento de la inversión pública en I+D+i][N1] y [se exigen con marchas en toda España más inversión y apoyo a la investigación][N2]; por otro, se llega a plantear la necesidad de cambiar el modelo productivo para pasar del modelo actual, extensivo en trabajadores, a otro intensivo en tecnología que permita aumentar la productividad.
+
+# El planteamiento
+
+Si acudimos a [Eurostat][EUS], encontramos que en 2014 España gastó el 1,24% de su Producto Interior Bruto en I+D+i. Nuestra posición en relación a los principales países de nuestro entorno puede verse en el siguiente gráfico:
+
+```{r echo = FALSE, message=FALSE}
+load(file = "./WIDGETS/RD_Exp_by_country_2014.Rda")
+library(highcharter)
+hc
+
+```
+
+Algunos proponen colocar a España a la cabeza de Europa en I+D+i, llegando hasta el 3%, siguiendo la [Europe 2020 growth strategy][EUGS]:
+
+*Europe 2020 Strategy sets out a vision of Europe’s social market economy for the 21st century and notably retained the 3% R&D intensity goal as one of the five headline targets to be achieved by the EU by 2020.*
+ 
+
+Es decir,como país, deberíamos plantearnos muy en serio si **deben seguir “inventando ellos” o tenemos que dedicar más recursos a la inversión en I+D+i**.
+
+Y, si la respuesta a la pregunta anterior es afirmativa, **¿debemos conseguirlo mediante gasto público?** 
+
+
+*The importance of the source of funding has been recognized in one of the Barcelona targets of the Lisbon agenda where it is said that the appropriate split for R&D is 1/3 financed by public funds and 2/3 by private.*
+
+Acudiendo a los datos que nos proporciona Eurostat, vamos a intentar reflexionar sobre estas dos preguntas.
+
+# Los datos
+
+Utilizaremos las siguientes tablas:
+
+1. **Research and development expenditure, by sectors of performance – % of GDP\*\* **
+
+*R&D expenditures include all expenditures for R&D performed within different sectors on the national territory during a given period, regardless of the source of funds. R&D expenditures are shown as a percentage of GDP (R&D intensity).*
+
+** *GDP = Gross Domestic Product* = Producto Interior Bruto = PIB
+
+*R&D Expenditures can be spent in the following sectors:*
+
+- *Business Enterprise Sector (BES) = industry*
+- *Private Non Profit Sector (PNPS)*
+- *Government Sector (GS)*
+- *Higher education Sector (HES) *
+
+
+
+```{r echo = FALSE, message=FALSE}
+load(file = "./WIDGETS/dt_RD_Exp.Rda")
+library(DT)
+d_t
+
+```
+
+2. **Gross domestic expenditure on R&D (GERD) by source of funds – % of total GERD\*\* **
+*This table presents the relative shares of the different sources of funds in R&D.*
+
+*More specifically the indicators provided are percentage of GERD (Gross domestic expenditure on R&D) financed respectively by industry (BES), government (GS), the higher education (HES) and the private non profit sector (PNPS). The fifth source of funds shown, which also make the breakdown complete, is GERD financed from Abroad.*
+
+Las definiciones de los diferentes sectores pueden encontrarse en el [Manual Frascati][MF] de la OECDE.
+
+```{r echo = FALSE, message=FALSE}
+load(file = "./WIDGETS/dt_RD_pGERD.Rda")
+library(DT)
+d_t
+```
+
+Se han utilizado también estadísticas sobre el PIB, en concreto  [List of countries by GDP (PPP) per capita][pcGDP_PPP] y  [List of countries by GDP (PPP)][GDP_PPP] obtenidas del [Fondo Monetario Internacional – 2016][FMI].
+
+GDP (PPP) significa gross domestic product ([at purchasing power parity][PPP]), es decir, PIB [a paridad de poder adquisitivo][PPA]. 
+
+*Comparisons of national wealth are frequently made on the basis of nominal GDP and savings (not just income), which do not reflect differences in the cost of living in different countries; hence, using a PPP basis is arguably more useful when comparing generalized differences in living standards between nations because PPP takes into account the relative cost of living and the inflation rates of the countries, rather than using only exchange rates, which may distort the real differences in income. This is why GDP (PPP) per capita is often considered one of the indicators of a country’s standard of living.*
+
+# El gráfico
+
+El gráfico que vamos a utilizar para nuestro análisis es el siguiente:
+
+```{r}
+load(file = "./WIDGETS/hc_pcPPP-GERD.Rda")
+library(highcharter)
+hc
+```
+
+Expliquemos sus componentes:
+
+* La **información básica** del gráfico se expresa mediante un **gráfico de dispersión** cuyos puntos, cada uno de ellos correspondiente a un país, vienen dados por las siguientes coordenadas:
+    + *R+D Effort* expresado como *R&D Expenditure (All Sectors, 2013)* y medido en % sobre el GDP.
+    + *Per capita GDP (PPP, 2016)*, expresado en miles de dólares internacionales.
+   
+* Las **líneas rojas** verticales (2) y horizontales (2) se corresponden con los **centiles 25 y 75** de las variables en abscisas y ordenadas.
+    + Consideraremos que los países  bajo la línea horizontal del centil 25 son países de "renta baja", los situados entre las líneas horizontales de los centiles 25 y 75 son países de "renta media" y los situados por encima de la linea horizontal del centil 75 son países de "renta alta".
+    + De la misma manera, los países a la izquierda de la línea vertical del centil 25 son países con "I+D baja", los situados entre las líneas verticales de los centiles 25 y 75 son países con "I+D media" y los situados a la derecha de la linea vertical del centil 75 son países con "I+D alta".
+    
+* Los **tamaños** de los círculos que representan a cada país son proporcionales a la **cantidad absoluta** (en dólares internacionales) **dedicada a I+D**.
+
+* El **color** de cada círculo da una idea del **% de capital privado presente en las fuentes de finaciación de la I+D en cada país**. Se han empleado los colores del arcoiris (rojo, naranja, amarillo, verde, cyan, azul y violeta) de manera que, cuanto más rojo, menos % de fuentes privadas de financiación y, cuanto más violeta, más fuentes privadas de financiación.
+
+* Si se pulsa, en la leyenda del gráfico, sobre "Per capita GDP ~ R&D Exp. Linear Fit", se mostrará la **recta de regresión lineal** con su área correspondiente al intervalo de confianza 95%.
+
+# La reflexión
+
+* Los cuadrantes "Renta alta - I+D baja" y "Renta baja - I+D alta" aparecen vacíos. Según parece:
+    + Si gastas poco en I+D, no eres rico; en otras palabras: si eres rico, no gastas poco en I+D.
+    + Si gastas mucho en I+D, no eres pobre; dicho de otra manera, si eres pobre, no gastas mucho en I+D.
+    
+## Por PIB per cápita - GDP (PPP, 2016)
+* Los países pobres gastan poco en I+D, y además el gasto lo hace principalmente el gobierno. La gran excepción es China, que se sitúa en un gasto I+D importante y sobre todo privado.
+* Niguno de los países ricos gasta poco en I+D. 
+* Entre ellos pueden distinguirse dos grupos:
+    + Gasto medio en I+D con componente privado medio-bajo (Luxemburgo, Irlanda, Noruega, Islandia y Holanda). Todos son países pequeños. Se ve que su modelo productivo no descansa únicamente en la tecnología. Son capaces de atraer capital (fiscalmente, como Luxemburgo e Irlanda; Noruega produce petróleo) que les permite adquirir tecnología y conocimiento sin necesidad de producirlos ellos. 
+    + Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia).
+* El tercer grupo (países moderadamente ricos) contiene países en todo el espectro de gasto en I+D: desde muy bajo (Chipre) hasta el más alto (Corea del Norte). Eso si, cuanto mayor es el gasto en I+D, mayor componente privada tiene.
+      
+## Por %GDP de gasto I+D
+* Los países que gastan poco en I+D principalmente lo hacen con medios públicos.
+    + Ninguno tiene alto PPP
+    + Los de PPP medio (Chipre, Malta) tienen el turismo como fuente alternativa de riqueza.
+    + Los demás son los más pobres (Montenegro, Rumania, Latvia, Bilgaria, Serbia, Croacia y, en el límite, Polonia)
+* Países con alto gasto en I+D
+    + Ninguno es pobre
+    + Algunos pueden considerarse ricos (USA, Alemania, Austria, Dinamarca, Suecia) y otros en la media (Bélgica, Eslovenia, Finlandia, Japón, Corea del Sur)
+    + Prácticamente todos tienen una alta compnente privada.
+    + Los que no pueden considerarse ricos o están en evolución (positiva: Corea del Sur; crisis, estancados: Japón) o son demasiado pequeños para sacar partido de lo que invierten en I+D (Bélgica, Eslovenia, Finlandia)
+* Países con gasto medio en I+D
+    + Ninguno es "pobre" excepto China (y, en el límite, Turquía, Hungría y China)
+    + Los que están en la media - como España - no parecen tener fuentes auxiliares de riqueza significativas (por lo productivo), Son "un poco de todo". La componente privada es moderada excepto en Francia.
+    
+
+## Posición respecto a la recta de regresión
+* Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia)
+      
+## Por PPP absoluto
+
+## Por componente privada
+* 
+
+## España
+(Situación en el gráfico y evolución temporal)
+
+# Conclusiones
+
+[QIE]: <https://es.wikipedia.org/wiki/%C2%A1Que_inventen_ellos!> "Que inventen ellos"
+[LRC]: <https://es.wikipedia.org/wiki/Revoluci%C3%B3n_cient%C3%ADfica> "La Revolución Científica"
+[N1]: <http://www.aimplas.es/blog/fedit-reivindica-el-mantenimiento-de-la-inversion-publica-en-idi-en-los-presupuestos-del-estado>
+[N2]: <http://www.rtve.es/noticias/20170422/comunidad-cientifica-reivindica-marchas-toda-espana-mas-inversion-apoyo-investigacion/1528940.shtml>
+[EUS]: <http://ec.europa.eu/eurostat/web/science-technology-innovation/data/main-tables> "Eurostat"
+[MF]: <http://www.oecd-ilibrary.org/science-and-technology/frascati-manual-2015_9789264239012-en;jsessionid=2512lbhn8gnuf.x-oecd-live-02> "Manual Frascati"
+[pcGDP_PPP]: <https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(PPP)_per_capita>
+[GDP_PPP]: <https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(PPP)>
+[FMI]: <https://en.wikipedia.org/wiki/International_Monetary_Fund>
+[PPP]: <https://en.wikipedia.org/wiki/Purchasing_power_parity>
+[PPA]: <https://es.wikipedia.org/wiki/Paridad_de_poder_adquisitivo>
+[EUGS]: <http://ec.europa.eu/eurostat/web/science-technology-innovation/overview>
