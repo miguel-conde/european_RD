@@ -48,9 +48,12 @@ commStackBP_Year_pGERD <- stackBP_Year_pGERD[countries, ]
 
 
 kk1 <- commStackBP_Year_ExpRD[order(RD_pGERD[countries, "2013", "BES"], decreasing = TRUE), ]
-hc_stackBP(kk1, title = "2013", 
-           labX = "TIME", labY = "Exp. R&D", 
+hc <- hc_stackBP(kk1, 
+                 title = "Gasto en I+D - 2013",
+                 subtitle = "Ordenado según la aportación de fondos BES",
+           labX = "", labY = "Gasto Total en I+D - % PIB", 
            seriesNames = secExpRD)
+hc
 save(hc, file = "./WIDGETS/RD_Exp_by_country_sector_2013.Rda")
 
 saveWidget(hc, 
@@ -58,9 +61,12 @@ saveWidget(hc,
            selfcontained = TRUE) 
 
 kk2 <- commStackBP_Year_pGERD[order(RD_Exp_GDP[countries, "2013", "AllS"], decreasing = TRUE), ]
-hc_stackBP(kk2, title = "2013", 
-           labX = "TIME", labY = "Exp. R&D", 
+hc <- hc_stackBP(kk2, 
+                 title = "Origen de fondos I+D - 2013",
+                 subtitle = "Ordenado por Gasto Total en I+D",
+           labX = "", labY = "Origen de fondos I+D - % Gasto Total I+D", 
            seriesNames = secPGERD)
+hc
 
 save(hc, file = "./WIDGETS/RD_pGERD_by_country_sector_2013.Rda")
 
@@ -141,17 +147,26 @@ PPA_RD_Exp_GDP$color[is.na(PPA_RD_Exp_GDP$color)] <- 0
 PPA_RD_Exp_GDP$size <- PPA_RD_Exp_GDP$AbsGDP
 
 # Format tooltip_table for scattered series
-x <- c("", "R&D Expenses (%GDP)", "Private R&D Exp. Share (%GERD)", "Per Capita PPP (Int$)", "PPP (MInt$)")
-y <- c("{point.Country}", sprintf("{point.%s:.2f}", c("Exp_GDP", "RD_pGERD_BES", "pcPPA", "PPA")))
+#x <- c("", "R&D Expenses (%GDP)", "Private R&D Exp. Share (%GERD)", "Per Capita PPP (Int$)", "PPP (MInt$)")
+x <- c("", 
+       "Gasto Total I+D (%PIB)", 
+       "% I+D Empresas Comerciales (% Gasto Total I+D)", 
+       "PIB per capita (PPA, Intl$)", 
+       "Gasto Total I+D (PPA, MInt$)")
+y <- c("{point.Country}", 
+       sprintf("{point.%s:.2f}", 
+               c("Exp_GDP", "RD_pGERD_BES", "pcPPA", "AbsGDP")))
 tltip <- tooltip_table(x, y, title = "DATA")
 
 # Format tooltip_table for fit series
-x <- c("", "R&D Expenses (%GDP)", "Per Capita PPP (Int$)")
+# x <- c("", "R&D Expenses (%GDP)", "Per Capita PPP (Int$)")
+x <- c("", "Gasto Total I+D (%PIB)", "PIB per capita (PPA, Intl$)")
 y <- c("{point.Country}", sprintf("{point.%s:.2f}", c("Exp_GDP",  "f")))
 tltipFit <- tooltip_table(x, y)
 
 # Format tooltip_table for CI
-x <- c("", "R&D Expenses (%GDP)", "High", "Per Capita PPP (Int$) Fit","Low")
+# x <- c("", "R&D Expenses (%GDP)", "High", "Per Capita PPP (Int$) Fit","Low")
+x <- c("", "Gasto Total I+D (%PIB)", "High", "PIB per capita (PPA, Intl$) Fit","Low")
 y <- c("{point.Country}", sprintf("{point.%s:.2f}", 
                                   c("Exp_GDP", "High",  "f",  "Low")))
 tltipCI <- tooltip_table(x, y, title = "Linear Fit & 95% CI")
@@ -172,7 +187,8 @@ hc <- highchart() %>%
                       y = .fitted),
                 enableMouseTracking = FALSE, ####
                 findNearestPointBy = "xy",
-                name = "Per capita GDP ~ R&D Exp. Linear Fit",
+                # name = "Per capita GDP ~ R&D Exp. Linear Fit",
+                name = "Modelo lineal PIB per capita ~ Gasto Total I+D",
                 color = "Blue",
                 id = "fit",
                 lineWidth = 1,
@@ -198,13 +214,16 @@ hc <- highchart() %>%
                       y = pcPPA, 
                       color = color,
                       size = size),
-                name = "R&D Expenditure",
+                # name = "R&D Expenditure",
+                name = "Gasto Total I+D",
                 tooltip = list(pointFormat  = tltip,
                                valueSuffix = "K Int.$")) %>%
-  hc_title(text = "Per Capita GDP vs. R&D Effort") %>% 
-  hc_subtitle(text = "with R&D Expenditure and Private R&D Share") %>% 
+  # hc_title(text = "Per Capita GDP vs. R&D Effort") %>% 
+  # hc_subtitle(text = "with R&D Expenditure and Private R&D Share") %>% 
+  hc_title(text = "PIB per capita vs. Intensidad Inversión I+D") %>% 
+  hc_subtitle(text = "con Gasto en I+D y Cuota del Sector Privado") %>%
   hc_chart(zoomType = "xy") %>%
-  hc_yAxis(title = list(text = "Per Capita GDP (PPP, 2016) - K Int. Dollars"),
+  hc_yAxis(title = list(text = "PIB per capita (PPA, 2016) - K Intl. Dollars"),
            gridLineWidth = 0,
            plotLines = list(list(label = list(text = "c25"),
                                  value = as.numeric(q_PPA["25%"]),
@@ -254,23 +273,23 @@ stackBP_Country_pGERD <- stackBP_Country(RD_pGERD, "Spain",
 
 # RD_Exp_GDP
 hc <- hc_stackBP(stackBP_Country_ExpRD, 
-                 title = "Gasto en I+D desglosado por sectores en España (2013)", 
+                 title = "Gasto en I+D desglosado por sectores en España", 
            labX = "", labY = "% PIB", 
-           seriesNames = secExpRD, sumLine = TRUE)
+           # seriesNames = secExpRD, 
+           sumLine = TRUE)
 hc
 
-save(hc, file = "./WIDGETS/RD_Exp_by_country_sector_2013.Rda")
+save(hc, file = "./WIDGETS/RD_Exp_Spain_by_sector_2013.Rda")
 
 saveWidget(hc, 
-           file = "RD_Exp_by_country_sector_2013.html", 
+           file = "RD_Exp_Spain_by_sector_2013.html", 
            selfcontained = TRUE) 
 
 
 # RD_pGERD
 hc <- hc_stackBP(stackBP_Country_pGERD, 
-           title = "% de financiación, por sectores, del gasto en I+D - España, 2013", 
-           labX = "", labY = "% Gasto Total en I+D", 
-           seriesNames = secPGERD)
+           title = "% de financiación, por sectores, del gasto en I+D - España", 
+           labX = "", labY = "% Gasto Total en I+D")
 hc
 
 save(hc, file = "./WIDGETS/RD_pGERD_Spain_by_sector_2013.Rda")
@@ -278,3 +297,43 @@ save(hc, file = "./WIDGETS/RD_pGERD_Spain_by_sector_2013.Rda")
 saveWidget(hc, 
            file = "RD_pGERD_Spain_by_sector_2013.html", 
            selfcontained = TRUE) 
+
+## Números absolutos SPAIN
+spainData <- readExcelSpain()
+hc <- hc_stackBP(spainData[, 2:5],
+           title = "Gasto absoluto en I+D desglosado por sectores en España", 
+           labX = "", labY = "International MDollars", 
+           # seriesNames = secExpRD, 
+           sumLine = TRUE)
+hc
+save(hc, file = "./WIDGETS/RD_AbsExp_Spain_by_sector.Rda")
+
+saveWidget(hc, 
+           file = "RD_AbsExp_Spain_by_sector.html", 
+           selfcontained = TRUE) 
+
+hc <- hc_stackBP(spainData[-nrow(spainData), 6:10],
+                 title = "Origen de Fondos I+D desglosado por sectores en España", 
+                 labX = "", labY = "International MDollars", 
+                 # seriesNames = secExpRD, 
+                 sumLine = TRUE)
+hc
+save(hc, file = "./WIDGETS/RD_AbspGERD_Spain_by_sector.Rda")
+
+saveWidget(hc, 
+           file = "RD_AbspGERD_Spain_by_sector.html", 
+           selfcontained = TRUE) 
+
+### Semipublic sources of RD funds
+tmp <- as.data.frame(RD_pGERD[,"2013",c("HES", "GS"), drop = FALSE])
+tmp <- tmp[apply(tmp, 1, function(x) sum(is.na(x)) < 2), ]
+hc <- hc_stackBP(tmp[order(tmp[,2]+tmp[,1], decreasing = TRUE),],
+                 title = 'Orígenes "Publicos" de fondos para I+D',
+                 labY = "% Gasto Total en I+D", sumLine = FALSE)
+hc
+save(hc, file = "./WIDGETS/RD_PubpGERD_by_sector.Rda")
+
+saveWidget(hc, 
+           file = "RD_PubpGERD_by_sector.html", 
+           selfcontained = TRUE) 
+

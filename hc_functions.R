@@ -30,7 +30,7 @@ stackBP_Country <- function(a, country, sectors_stack = NULL,
 }
 
 hc_stackBP <- function(df,
-                       title = "", labX = "", labY = "", 
+                       title = "", subtitle = "", labX = "", labY = "", 
                        seriesNames = NULL,
                        sumLine = FALSE) {
   
@@ -42,6 +42,7 @@ hc_stackBP <- function(df,
     hc_chart(type = "column",
              options3d = list(enabled = TRUE, beta = 15, alpha = 15)) %>% 
     hc_title(text = title) %>% 
+    hc_subtitle(text = subtitle) %>%
     hc_xAxis(title = list(text = labX)) %>%
     hc_yAxis(title = list(text = labY)) %>% 
     hc_plotOptions(column = list(
@@ -151,3 +152,6 @@ hc_mtsCS2 <- function(mts_in,
   
   hc
 }
+
+
+

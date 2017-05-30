@@ -120,3 +120,13 @@ merge_PPA_RD_Exp_GDP <- function(npcPPA, nPPA, nRD_Exp_GDP) {
   
   out
 }
+
+
+readExcelSpain <- function() {
+  out <- read_excel("D:/PROYECTOS DATA SCIENCE/european_RD/DATA/SPAIN.xlsx", 
+             sheet = "Absoluto", na = "0", skip = 1)
+  out <- as.data.frame(out)
+  rownames(out) <- out$Year
+  
+  out[,-1]
+}
