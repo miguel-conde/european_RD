@@ -322,6 +322,8 @@ library(DT)
 d_t
 ```
 
+
+
 [QIE]: <https://es.wikipedia.org/wiki/%C2%A1Que_inventen_ellos!> "Que inventen ellos"
 [LRC]: <https://es.wikipedia.org/wiki/Revoluci%C3%B3n_cient%C3%ADfica> "La Revolución Científica"
 [N1]: <http://www.aimplas.es/blog/fedit-reivindica-el-mantenimiento-de-la-inversion-publica-en-idi-en-los-presupuestos-del-estado>
