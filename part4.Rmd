@@ -1,0 +1,59 @@
+---
+title: "España y la I+D+i"
+author: "Miguel Conde"
+date: "18 de julio de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+En los post anteriores hemos visto que:
+
+* La intensidad I+D+i en España está totalmente en la línea con nuestro entrono europeo.
+* Durante la crisis:
+    + En los primeros años, se incrementó el esfuerzo público (en la línea de las medidas de estímulo empleadas hasta los recortes de 2010) y luego descendió hasta los niveles previos a la crisis.
+    + El esfuerzo privado obró al revés: se redujo algo al principio de la crisis y se mantuvo en los años posteriores y hasta ahora.
+    + En conjunto, hemos vuelto a los niveles previo a la crisis.
+* Se obeserva una correlación positiva importante entre el porcentaje privado sobre el total de inversión I+D+i y el PIB per cápita ajustado a paridad de poder adquisitivo.
+
+¿Como podemos interpretar todo esto para España?
+
+1. En primer lugar, hay que decir que intensificar **la I+D+i no es el único camino** hacia el aumento de PIB per capita.
+
+En efecto, hemos visto que países como Holando, Islandia, Irlanda, Noruega y Luxemburgo gastan comparativamente poco más que España en I+D+i pero su PIB per capita es considerablemente superior.
+
+Esto se debe a sus diferentes modelos productivos: algunos tienen petróleo, otros incentivos fiscales,... El caso es que pueden comprar tecnología (en vez de producirla), son más productivos y menos intensivos en mano de obra que España. Los sectores productivos paradigmáticos clave en España han sido el ocio (incluyendo aquí turismo y hostelería) y la construcción. Este tipo de sectores hasta ahora no han sido intensivos en tecnología o innovación.
+
+Por tanto, la primera conclusión es que deberíamos plantearnos qué modelo queremos: el actual, uno nuevo basado en I+D+i, uno nuevo basado en otras cosas o uno nuevo mezcla de los dos últimos.
+
+Desafortunadamente, esta es la típica cuestión con un horizonte a más de 20 - 30 años (al menos 1 generación) que no parece interesar a políticos, instituciones, medios de comunicación ni sociedad civil. Este síntoma de falta de inteligencia colectiva debería hacernos reflexionar.
+
+2 - Si queremos aumentar la intensidad de la I+D+i tenemos que trabajar sobre el **capital humano**.
+
+En efecto, para aumentar nuestro PIB per cápita via I+D+i (a lo largo de la recta de regresión, como Francia, la UE, Alemania, Bégica, Austria Suecia o Dinamarca) necesitamos mejorar nuestro capital humano.
+
+Hablamos de los sistemas Educativo e Investigador. Otros dos mundos tabú, utilizados políticamnete como armas arrojadizas, cuya reforma no rinde réditos políticos a 4 años vista y que esconden avisperos muy endogámicos en los que, cualquiera que meta la mano, probablemente la saque bastante "estropeada".
+
+3 - Si queremos aumentar la intensidad de la I+D+i tenemos que trabajar sobre el **capital financiero**. Y especialmete el privado, dada la relación entre éste y mayores PIB per cápita e intensidad I+D+i.
+
+Hace pocos días, un alto cargo del Ayuntamiento de una de las principales ciudades españolas declaraba, en un acto sobre innovación con emprendedores, al que asistí:
+
+"Las grandes empresas españolas son muy 'ratas', invierten mucho menos en I+D+i que las alemanas".
+
+Y: "las PYMES españolas son muy cutres *(sic)*, nos falta cultura empresarial, el pequeño empresario español prefiere tener tres empresas pequeñas antes que una grande para ahorrarse tener un Comité de Empresa o los requerimientos administrativos, regulatorios, fiscales, etc que implican convertir las tres pequeñas empresas en una grande".
+
+Que cada uno piense lo que quiera sobre estas declaraciones. Lo que si está claro es que, según [5 Días](https://cincodias.elpais.com/cincodias/2015/09/02/pyme/1441206221_324356.html),  *el tejido empresarial español está compuesto por PYMEs (menos de 250 empleados y menos de 50 M€ de volumen de negocio) en un 99,9 %, de las cuales la mitad son micropymes sin empleados*. 
+
+*Las microempresas son aquellas compañías que tienen entre uno y nueve trabajadores suponen el 42,2% del tejido empresarial del país, con 1.314.398 sociedades, mientras que las empresas pequeñas, que hacen referencia a aquellas que tienen entre 10 y 49 asalariados alcanzan las 107.784, abarcando el 3,5% del total. Por su parte, las medianas, que van desde los 50 hasta los 249, suponen el 0,6% y cuentan con 18.011*.
+
+*España contaba con fecha del 1 de enero de 2014 con 3.839 grandes compañías, que representaban el 0,1% del tejido empresarial*.
+
+Según el informe [Demografía empresarial en España: tendencias y regularidades ](http://documentos.fedea.net/pubs/eee/eee2015-24.pdf), *En donde se aprecian diferencias significativas entre España y países como Alemania, EEUU, Reino Unido o Francia es en el distinto peso relativo que tienen las empresas pequeñas y grandes. Por ejemplo, las microempresas en Alemania suponen el 20% del empleo total y en España representan el doble. Las empresas grandes dan empleo al 37% de los ocupados en Alemania, en España sólo al 23%. En España una gran proporción del empleo y del valor añadido se concentra en microempresas y empresas pequeñas, respecto a los porcentajes que suponen estos colectivos empresariales en Alemania, Francia, Reino Unido y EEUU. España se parece mucho a Italia. *
+
+Con estos tamaños es muy complicado que el tejido empresarial español facilite la concentración de capital necesaria para abordar proyectos de I+D+i.
+
+Falta también, por tanto, un reflexión y un debate acerca de porqué en España las empresas son pequeñas y tienen poca capacidad para invertir.
+
+También hay que considerar otras fuentes de capital disponibles para invertir en I+D+i. Los modelos clásicos de capital riesgo o los más 2.0 tipo *crowdfunding* muestran en España un aspecto muy "provinciano" en relación a otros lugares del mundo. 

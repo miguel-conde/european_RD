@@ -1,0 +1,127 @@
+---
+title: "Evolución de la I+D en España durante los años 2004-15"
+author: "Miguel Conde"
+date: "31 de mayo de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+require(highcharter)
+```
+
+
+# Evolución de la I+D en España durante los años 2004-15
+
+## En términos porcentuales.
+
+### Intensidad I+D
+
+En el siguiente gráfico vemos la evolución de la **intensidad** de las actividades de I+D en España desde 2004 a 2015, desglosada por sectores.
+
+La intensidad I+D es el gasto en actividades I+D medido como porcentaje del PIB.
+
+```{r echo = FALSE}
+load(file = "./WIDGETS/RD_Exp_Spain_by_sector_2013.Rda")
+hc
+```
+
+Por ejemplo, el gasto total en I+D en España en 2013 fue del 1.27% del PIB, que corresponde a 0.67% en el sector BES, 0.36% en el HES y 0.24% en el GS.
+
+* La Intensidad de Gasto Total en I+D alcanzó su máximo en 2009 con un 1.35% del PIB y luego ha ido descendiendo lentamente hasta el 1.21% en 2015 (niveles de 2006-7).
+
+* La Intensidad de Gasto en I+D del sector Administraciones Públicas llegó a su máximo, 0.27%, en 2009 y 2010, para volver en 2015 a niveles de 2007-2008, 0.23%.
+
+* La Intensidad de Gasto en I+D del sector Educación Superior llegó a su máximo, 0.38%, también en 2009 y 2010, para volver en 2015 a niveles de 2007-2008, 0.34%.
+
+* Por último, la Intensidad de Gasto en I+D del sector Empresas Comerciales llegó a su máximo en 2008 con un 0.72% y en 2015 se encuentra a niveles de 2005-06 con un 0.64%.
+
+### Orígenes de fondos I+D 
+En el gráfico siguiente vemos el origen por sectores de los fondos empleados en actividades I+D en España desde 2004 a 2014. SE expreasan como porcentajes del Gasto Total en I+D.
+
+
+```{r echo = FALSE}
+load(file = "./WIDGETS/RD_pGERD_Spain_by_sector_2013.Rda")
+hc
+```
+Por ejemplo, los fondos para I+D en España en 2013 provinieron del sector Empresas Comerciales en un 46.3%; del Sector Privado sin Ánimo de Lucro en un 0.6%; del sector Administraciones Públicas en un 41.6%; del sector Educación Superior en un 4.1%; y del Exterior, en un 7.4%.
+
+* El porcentaje de fondos del sector Empresas Comerciales bajó hasta un mínimo del 43% en 2010 para recuperarse en 2014 hasta niveles de 2006-07, 46.4%.
+
+* El porcentaje de fondos del sector Administraciones Públicas alcanzó un máximo del 47.9% en 2009 para volver en 2014 a niveles de 2004-05, 41.4%. 
+
+* El porcentaje de fondos del sector Educación Superior bajó hasta un mínimo del 
+3.2 % en 2008 para recuperarse en 2014 hasta niveles de 2005, 4.1%.
+
+* El porcentaje de fondos proveniente del Exterior bajó hasta un 5.5% en 2009. En 2013 y 2014 supera todos los niveles previos, llegando al 7.4%.
+
+## En términos absolutos.
+
+Veamos ahora la evolución del Gasto y el Origen de Fondos para I+D en España en **valor absouto**.
+
+### Gasto Absoluto en I+D
+
+En el siguiente gráfico aparece la evolución, desglosada por sectores desde 2004 hasta 2015, del Gasto en I+D expreado en dólares internacionales a paridad de poder adquisitivo.
+
+```{r echo = FALSE}
+load(file = "./WIDGETS/RD_AbsExp_Spain_by_sector.Rda")
+hc
+```
+
+Aquí podemos ver que:
+
+* El Gasto Total en I+D alcanzó sus máximos en 2008-11, bajando posteriormente más o menos un 3%) desde 2012 a 2014. En 2015 había vuelto a los niveles de 2007-8.
+
+* El Gasto en I+D en el sector Empresas Comerciales alcanzó su máximo en 2008 y en 2015 había vuelto a niveles de 2007.
+
+* El Gasto en I+D en el sector Administraciones Públicas alcanzó su máximo en 2010 y en 2015 había vuelto a niveles de 2008.
+
+* El Gasto en I+D en el sector Educación Superior alcanzó su máximo en 2010 y se ha mantenido muy estable desde 2012, en niveles de 2008.
+
+
+### Orígenes de Fondos I+D en términos absolutos
+
+Por último, la evolución del origen por sectores de los fondos empleados en actividades I+D en España desde 2004 a 2014, expresados en dólares internacionales a paridad de poder adquisitivo.
+
+```{r echo = FALSE}
+load(file = "./WIDGETS/RD_AbspGERD_Spain_by_sector.Rda")
+hc
+```
+
+* Los fondos destinados a I+D provenientes del sector Empresas Comerciales alcanzaron su máximo en 2008 y se han mantenido muy estables desde 2009, en niveles superiores a los de 2007.
+
+* Los fondos destinados a I+D provenientes del sector Administraciones Públicas alcanzaron su máximo en 2009 y 2010 y volvieron a niveles de 2007 en 2013 y 2014.
+
+* Los fondos destinados a I+D provenientes del sector Educación Superior alcanzaron su máximo en 2011 y se han mantenido en niveles superiores a los de antes de la crisis.
+
+* Los fondos destinados a I+D provenientes del sector Exterior superan los niveles de 2007 desde 2011.
+
+
+Aunque tanto el sector Empresas Comerciales como el sector Educación Superior comprenden empresas e instituciones que pueden ser públicas o privadas, podemos estimar la inversión pública como la suma de los sectores Administraciones Públicas y Educación Superior y la privada como la suma de los sectores Empresas Comerciales y Privado sin Ánimo de Lucro. En tal caso:
+
+* La inversión pública alcanzó su máximo en 2010, disminuyendo posteriormente un 15% hasta 2014 (es decir, hasta niveles de 2007).
+
+* La inversion privada llegó a su máximo en 2008 y luego se mantuvo prácticamente constante, siempre por encima de los niveles previos a 2008.
+
+## Conclusiones
+
+1. Considerando en conjunto la I+D en España:
+
+    + Su intensidad (1.21 %PIB gastado en actividades I+D) había vuelto en 2015 a los niveles de 2006-2007. 
+    + La inversión en I+D, en términos absolutos, había vuelto a niveles de 2007-08 (aunque eso supone un 3% menos que el máximo alcanzado durante la crisis)
+
+2. En cuanto a los sectores:
+
+    + En términos absolutos, todos han vuelto a niveles previos a la crisis, tanto en intensidad de las actividades I+D como en inversión I+D. Cabe destacar las Empresas Comerciales, que superan los niveles precrisis desde 2009.
+    + En términos relativos;
+        + La intensidad de las actividades I+D han vuelto a sus niveles precrisis excepto en el caso de las Empresas Comerciales, que, en 2015, todavía estaban en niveles de 2005-2006.
+        + La inversión en I+D en el año 2014 todavía estaba en niveles de 2005 (AAPP, Eduación Superior) o 2006-07 (Empresas Comerciales). Sin embargo, había aumentado la proveniente del Exterior (superior a los niveles de 2007)
+        
+En resumen, podemos decir que, en conjunto, las actividades e inversiones en I+D en España habían vuelto en 2015 a niveles anteriores a la crisis. Conviene, sin embargo, matizar que:
+
+* De 2008 a 2011 el incremento de inversión pública, junto a la pequeña bajada en inversión privada (siempre se mantuvo por encima de los niveles de 2007), implicaron un aumento tanto de la intensidad (motivada también por la bajada del PIB) como de la cantidad total empleada en actividades I+D.
+
+* A partir de 2012 la inversión pública disminuyó un 15% (hasta niveles de 2007), aumentando sin embargo la Exterior y manteniéndose la privada más o menos constante. Esto, junto al aumento del PIB español, se tradujo en una disminución de la intensidad I+D (del 1.35 % en 2009 al 1.21 % en 2015) y del Gasto Total en I+D (un 3% menos que el máximo alcanzado durante la crisis)

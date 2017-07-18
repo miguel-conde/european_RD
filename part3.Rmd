@@ -1,0 +1,123 @@
+---
+title: "Mapa Estratégico"
+author: "Miguel Conde"
+date: "1 de junio de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+require(highcharter)
+```
+
+
+
+# El Mapa Estratégico de la I+D
+
+Anteriormente hemos reflexionado, considerando nuestro conjunto de países, sobre la *actividad I+D* (tanto en términos absolutos como en términos de *intensidad*, es decir, %PIB dedicado a I+D) y el *origen de los fondos* dedicados a ella.
+
+Hemos desglosado actividad y orígenes de fondos según los llamados *sectors of performance*: Empresas Comerciales, Administraciones Públicas, Educación Superior, Privado Sin Ánimo de Lucro y Exterior (Este último, solo en cuanto a origen de fondos).
+
+Vamos a intentar ahora resumir las principales conclusiones a las que hemos llegado y alcanzar otras nuevas sintetizando la información relevante en un único gráfico, que hemos denominado *Mapa Estratégico de la I+D*. El principal factor añadido es el PIB per cápita, expresado en [dólares internacionales][IDOL] [PPA][PPA] (a paridad de poder adquisitivo).
+
+El gráfico que vamos a utilizar para nuestro análisis es el siguiente:
+
+```{r echo = FALSE, message=FALSE}
+load(file = "./WIDGETS/hc_pcPPP-GERD.Rda")
+library(highcharter)
+hc
+```
+
+Expliquemos sus componentes:
+
+* La **información básica** del gráfico se expresa mediante un **gráfico de dispersión** cuyos puntos, cada uno de ellos correspondiente a un país, vienen dados por las siguientes coordenadas:
+    + *Intensidad I+D (%PIB, 2013)* porcentaje del PIB dedicado a actividades I+D en 2013.
+    + *PIB per capita (PPA, 2016) - K Intl. $*,  en miles de dólares internacionales a paridad de poder adquisitivo.
+    
+Se han elegido 2013 y 2016 por ser los datos más completos y actualizados (intensidad I+D y PIB per capita respectivamente).
+   
+* Las **líneas rojas** verticales (2) y horizontales (2) se corresponden con los **centiles 25 y 75** de las variables en abscisas y ordenadas.
+    + Consideraremos que los países  bajo la línea horizontal del centil 25 son países de "PIB bajo", los situados entre las líneas horizontales de los centiles 25 y 75 son países de "PIB medio" y los situados por encima de la linea horizontal del centil 75 son países de "PIB alto".
+    + De la misma manera, los países a la izquierda de la línea vertical del centil 25 son países con "I+D baja", los situados entre las líneas verticales de los centiles 25 y 75 son países con "I+D media" y los situados a la derecha de la linea vertical del centil 75 son países con "I+D alta".
+    
+* Los **tamaños** de los círculos que representan a cada país son proporcionales a la **cantidad absoluta** (en dólares internacionales) **dedicada a I+D**.
+
+* El **color** de cada círculo da una idea del **% de capital privado presente en las fuentes de finaciación de la I+D en cada país**. Se han empleado los colores del arcoiris (rojo, naranja, amarillo, verde, cyan, azul y violeta) de manera que, cuanto más rojo, menos % de fuentes privadas de financiación y, cuanto más violeta, más fuentes privadas de financiación.
+
+* Si se pulsa, en la leyenda del gráfico, sobre "Modelo lineal PIB per capita ~ Intensidad I+D", se mostrará la **recta de regresión lineal** con su área correspondiente al intervalo de confianza 95%.
+
+# Exploración del gráfico
+
+* Los cuadrantes "PIB alto - I+D baja" y "PIB bajo - I+D alta" aparecen vacíos.
+
+Según parece:
+    + Si gastas poco en I+D, no eres rico; en otras palabras: si eres rico, no gastas poco en I+D.
+    + Si gastas mucho en I+D, no eres pobre; dicho de otra manera, si eres pobre, no gastas mucho en I+D.
+    
+## Por PIB per cápita 
+* Los países pobres gastan poco en I+D, y además el gasto lo hace principalmente el gobierno. La gran excepción es China, que se sitúa en un gasto I+D importante y sobre todo privado.
+
+* Niguno de los países ricos gasta poco en I+D. 
+
+* Entre los países ricos pueden distinguirse dos grupos:
+    + Gasto medio en I+D con componente privado medio-bajo (Luxemburgo, Irlanda, Noruega, Islandia y Holanda). Todos son países pequeños. Se ve que su modelo productivo no descansa únicamente en la tecnología. Son capaces de atraer capital (fiscalmente, como Luxemburgo e Irlanda; Noruega produce petróleo) que les permite adquirir tecnología y conocimiento sin necesidad de producirlos ellos. 
+    + Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia). Excepto en Austria, en todos predomina la componente privada en financiación I+D.
+
+* El tercer grupo (países moderadamente ricos) contiene países en todo el espectro de gasto en I+D: desde muy bajo (Chipre) hasta el más alto (Corea del Norte). Eso si, cuanto mayor es el gasto en I+D, mayor componente privada tiene.
+      
+## Por Intensidad I+D
+* Los países que gastan poco en I+D principalmente lo hacen con medios públicos.
+    + Ninguno tiene alto PIB per capita.
+    + Los de PIB medio (Chipre, Malta) tienen el turismo o los incentivos fiscales como fuente alternativa de riqueza.
+    + Los demás son los más pobres (Montenegro, Rumania, Latvia, Bilgaria, Serbia, Croacia y, en el límite, Polonia)
+
+* Países con alto gasto en I+D
+    + Ninguno es pobre
+    + Algunos pueden considerarse ricos (USA, Alemania, Austria, Dinamarca, Suecia) y otros en la franja media (Bélgica, Eslovenia, Finlandia, Japón, Corea del Sur)
+    + Prácticamente todos tienen una alta componente privada.
+    + Los que no pueden considerarse ricos, o están en evolución (positiva: Corea del Sur; crisis, estancados: Japón) o son demasiado pequeños para sacar todo el partido a lo que invierten en I+D (Bélgica, Eslovenia, Finlandia)
+
+* Países con gasto medio en I+D
+    + Ninguno es "pobre" excepto China (y, en el límite, Turquía, Hungría y Rusia)
+    + Los que están en la franja media del PIB - como España - no parecen tener fuentes auxiliares de riqueza significativas (por lo productivo), Son "un poco de todo". La componente privada es moderada excepto en Francia.
+    
+
+## Posición respecto a la recta de regresión
+* Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia)
+* Países que siguen la regresión.
+
+Es interesante lo "bien" que siguen algunos paíse a la recta de regressión. Es el caso de España, Italia, Francia (la UE (zona Euro y 27), Bélgica, Alemania, Autria, Dinamarca y Suecia). Bastantes países más se encuentran en el intervalo de confianza del 95%.
+
+¿Qué excepciones tenemos?
+
+Por un lado, los países con intensidad I+D media pero alto PIB per capita. Está claro que estos países - pequeños - siguen otros modelos productivos.
+
+Por otro, los más pobres y que menos gastan en I+D: no han sido capaces todavía de alcanzar la "secuencia princial".
+
+Por último, China y Estados Unidos.
+
+La primera parece estar un esfuerzo consciente en I+D para, cuando lo haga, ingresar en la zona rica de la secuencia principal.
+
+El segundo ofrece una combinación de tamaño (inversión absoluta en I+D), intensidad en I+D y dsiponibilidad de otros recursos (nacionales y geopolítico-económicos)
+      
+## Por gasto absoluto en I+D
+
+Los gigantes son: Estados Unidos, China, la Unión Europea, Japón y Corea del Sur.
+
+## Por componente privada
+No cabe duda de que la mitad derecha del gráfico - la de mayor intensidad en I+D - está dominada por los países con un alto porcentaje de inversión privada sobre el total de la inversidad I+D. Lo contrario sucede con la mitad izquierda.
+
+Una vez más: intensidad en I+D y porcentaje privado de la inversión en I+D aparecen clara e inversamente correlacionadas.
+
+## España
+(Situación en el gráfico y evolución temporal)
+
+# Conclusiones
+
+
+
+[PPA]: <https://es.wikipedia.org/wiki/Paridad_de_poder_adquisitivo>
+[IDOL]: <https://es.wikipedia.org/wiki/Dolar_internacional>

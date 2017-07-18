@@ -1,0 +1,106 @@
+---
+title: "Ideas"
+author: "Miguel Conde"
+date: "12 de mayo de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+El PIB español ha crecido tradicionalmente más de manera extensiva (aumentando el número de trabajadores) que intensivamente (mediante el incremento del factor capital y la tecnología, es decir, la productividad).
+
+El empuje innovador de una sociedad depende de:
+
+* La existencia de **incentivos**. En el caso de España, los principales sectores productivos (el turismo, la construcción) no precisan grandes innovaciones, es decir, no proporcionan incentivos para la innovación.
+* La facilidad de acceder a los **recursos** necesarios:
+    + **Financieros**: en España el tejido empresarial está compuesto por empresas demasiado pequeñas como para captar el capital necesario para acometer I+D+i abundante y diversificar esta inversión para minimizar riesgos.
+    + **Humanos**: el capital humano necesario para la I+D+i está demasiado concentrado en una Universidad poco centrada en la realidad del mercado.
+    
+Para muchos es necesario cambiar el modelo productivo incrementando la productividad mediante la tecnología, lo que coloca en primer plano dos cuestiones:
+
+1- Incrementar el % sobre el PIB destinado a I+D+i.
+
+2- Conseguir tal incremento aumentado la inversión *pública* en I+D+i
+
+En forma de hipótesis, podemos plantearnos ambas cuestiones de la siguiete manera:
+
+1- A mayor inversión (% PIB) en I+D+i, mayor PIB.
+
+2- Es necesario fomentar la inversión en I+D+i mediante gasto público.
+
+De una manera más formal:
+
+1- Mayor %PIB en I+D+i $\Rightarrow$ mayor PIB
+
+2- Mayor %PIB en I+D+i $\Rightarrow$ mayor % gasto público en inversión I+D+i
+
+
+```{r}
+source("readExcelData.R")
+
+RD_Exp_GDP  <- get_RD_Exp_GDP()
+RD_RD_pGERD <- get_RD_RD_pGERD()
+
+npcPPA <- readExcel_PC_PPA("./DATA/IMF_PC_PPA_2016.xlsx")
+nPPA   <- readExcel_PPA("./DATA/IMF_PC_PPA_2016.xlsx")
+
+PPA_RD_Exp_GDP <- merge_PPA_RD_Exp_GDP(npcPPA, nPPA, RD_Exp_GDP[,"2013", "AllS"])
+PPA_RD_Exp_GDP$RD_pGERD_BES <- 
+  RD_RD_pGERD[dimnames(RD_RD_pGERD)[["Country"]] %in% rownames(PPA_RD_Exp_GDP),
+              "2013", "BES"]
+PPA_RD_Exp_GDP$AbsGDP <- PPA_RD_Exp_GDP$PPA * PPA_RD_Exp_GDP$Exp_GDP / 100
+
+PPA_RD_Exp_GDP_lm <- lm(pcPPA ~ Exp_GDP, PPA_RD_Exp_GDP)
+
+plot(PPA_RD_Exp_GDP$Exp_GDP, PPA_RD_Exp_GDP$pcPPA,
+     xlab = "R&D Expenditure as %GDP (2013)",
+     ylab = "Per Capita PPA (2016)")
+abline(reg = PPA_RD_Exp_GDP_lm)
+abline(h = mean(PPA_RD_Exp_GDP$pcPPA, na.rm = TRUE), lty = 2)
+abline(v = mean(PPA_RD_Exp_GDP$Exp_GDP, na.rm = TRUE), lty = 2)
+```
+
+```{r}
+library(highcharter)
+load(file = "./WIDGETS/hc_pcPPP-GERD.Rda")
+hc
+```
+
+## Análisis del último gráfico
+
+* Por PPP
+    + Los países pobres gastan poco en I+D, y además el gasto lo hace principalemnte el gobierno. La gran excepción es China, que se sitúa en un gasto I+D importante y sobre todo privado.
+    + Niguno de los países ricos gasta poco en I+D. 
+    + Entre ellos pueden distinguirse dos grupos:
+        + Gasto medio en I+D con componente privado medio-bajo (Luxemburgo, Irlanda, Noruega, Islandia y Holanda). Todos son países pequeños. Se ve que su modelo productivo no descansa únicamente en la tecnología. Son capaces de atraer capital (fiscalmente, como Luxemburgo e Irlanda; Noruega produce petróleo; ¿Holanda e Islandia?) que les permite adquirir tecnología y conocimiento sin necesidad de producirlas ellos. 
+        + Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia).
+    + El tercer grupo (países moedradamente ricos) contiene países en todo el espectro de gasto en I+D: desde muy bajo (Chipre) hasta el más alto (Corea del Norte). Eso si, cuanto mayor es el gasto en I+D, mayor componente privada tiene.
+      
+* Por %GDP de gasto I+D
+    + Los países que gastan poco en I+D principalmente lo hacen con medios públicos.
+        + Ninguno tiene alto PPP
+        + Los de PPP medio (Chipre, Malta) tienen el turismo como fuente alternativa de riqueza.
+        + Los demás son los más pobres (Montenegro, Rumania, Latvia, Bilgaria, Serbia, Croacia y, en el límite, Polonia)
+    + Países con alto gasto en I+D
+        + Ninguno es pobre
+        + Algunos pueden considerarse ricos (USA, Alemania, Austria, Dinamarca, Suecia) y otros en la media (Bélgica, Eslovenia, Finlandia, Japón, Corea del Sur)
+        + Prácticamente todos tienen una alta compnente privada.
+        + Los que no pueden considerarse ricos o están en evolución (positiva: Corea del Norte; crisis, estancados: Japón) o son demasiado pequeños para sacar partido de lo que invierten en I+D (Bélgica, Eslovenia, Finlandia)
+    + Países con gasto medio en I+D
+        + Ninguno es "pobre" excepto China (y, en el límite, Turquía, Hungría y China)
+        + Los que están en la media - como España - no parecen tener fuentes auxiliares de riqueza significativas (por lo productivo), Son "un poco de todo". La componente privada es moderada excepto en Francia.
+
+
+* Posición respecto a la recta de regresión
+      + Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia)
+      
+* Por PPP absoluto
+
+* Por componete privada
+      + 
+      
+      
+Si gastas poco en I+D, no eres rico <-> Si eres rico, no gastas poco en I+D
+Si gastas mucho en I+D, no eres pobre <-> Si eres pobre, no gastas mucho en I+D

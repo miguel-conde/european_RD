@@ -61,7 +61,8 @@ hc_stackBP <- function(df,
     hc <- (hc %>% hc_add_series(type = "line",
                                 name = "Total", 
                                 data = d,
-                                hcaes(y = Total)))
+                                hcaes(y = Total),
+                                zIndex = 100))
   }
 
   hc <- (hc %>% hc_xAxis(categories = row.names(df)))

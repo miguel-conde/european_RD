@@ -33,6 +33,44 @@ library(htmlwidgets)
 saveWidget(hc, file = "RD_Exp_by_country_2014.html", selfcontained = TRUE)
 save(hc, file = "./WIDGETS/RD_Exp_by_country_2014.Rda")
 
+### Gasto en I+D por países - 2013
+RD_Exp_GDP <- get_RD_Exp_GDP()
+RD_pGERD   <- get_RD_RD_pGERD()
+secExpRD <- c("AllS")
+stackBP_Year_ExpRD <- stackBP_Year(RD_Exp_GDP, "2013", 
+                                   sectors_stack = secExpRD)
+secPGERD <- c("Abroad", "HES", "GS", "PNPS",  "BES")
+stackBP_Year_pGERD <- stackBP_Year(RD_pGERD, "2013",
+                                   sectors_stack = secPGERD)
+
+countries <- intersect(rownames(stackBP_Year_ExpRD), 
+                       rownames(stackBP_Year_pGERD))
+commStackBP_Year_ExpRD <- stackBP_Year_ExpRD[countries, , drop = FALSE]
+commStackBP_Year_pGERD <- stackBP_Year_pGERD[countries, , drop = FALSE]
+
+kk1 <- commStackBP_Year_ExpRD[order(RD_Exp_GDP[countries, "2013", "AllS"], 
+                                    decreasing = TRUE), , drop = FALSE]
+hc <- hc_stackBP(kk1, title = "Gasto en I+D por países - 2013", 
+                 labX = "", labY = "%PIB", 
+                 seriesNames = "Gasto Total en I+D")
+# hc <- hc %>% hc_plotOptions(series = list(zoneAxis = list(value = 2, 
+#                                                        className = "zone-0",
+#                                                        color = colors()[2])))
+# hc <- hc %>% hc_series(zoneAxis = "x", zones = list(list(value = 2,
+#                                                          color = colors()[2])))
+hc
+library(htmlwidgets)
+saveWidget(hc, file = "RD_Exp_by_country_2013.html", selfcontained = TRUE)
+save(hc, file = "./WIDGETS/RD_Exp_by_country_2013.Rda")
+
+## Main countries zoom 2013
+main_c_zoom <- cbind(commStackBP_Year_ExpRD, commStackBP_Year_pGERD)
+main_countries <- c("EU28", "Euro area", "United States", "South Korea", "China",
+                    "Germany", "France", "United Kingdom", "Italy", "Spain")
+main_c_zoom <- main_c_zoom[main_countries,]
+
+save(main_c_zoom, file = "./main_c_zoom2013.Rda")
+
 ### Gasto en I+D por países, desglosado y ordenado por pGERD BES - 2013
 secExpRD <- c("GS", "HES", "PNPS", "BES")
 stackBP_Year_ExpRD <- stackBP_Year(RD_Exp_GDP, "2013", 
@@ -188,7 +226,7 @@ hc <- highchart() %>%
                 enableMouseTracking = FALSE, ####
                 findNearestPointBy = "xy",
                 # name = "Per capita GDP ~ R&D Exp. Linear Fit",
-                name = "Modelo lineal PIB per capita ~ Gasto Total I+D",
+                name = "Modelo lineal PIB per capita ~ Intensidad I+D",
                 color = "Blue",
                 id = "fit",
                 lineWidth = 1,
@@ -220,10 +258,10 @@ hc <- highchart() %>%
                                valueSuffix = "K Int.$")) %>%
   # hc_title(text = "Per Capita GDP vs. R&D Effort") %>% 
   # hc_subtitle(text = "with R&D Expenditure and Private R&D Share") %>% 
-  hc_title(text = "PIB per capita vs. Intensidad Inversión I+D") %>% 
+  hc_title(text = "PIB per capita vs. Intensidad I+D") %>% 
   hc_subtitle(text = "con Gasto en I+D y Cuota del Sector Privado") %>%
   hc_chart(zoomType = "xy") %>%
-  hc_yAxis(title = list(text = "PIB per capita (PPA, 2016) - K Intl. Dollars"),
+  hc_yAxis(title = list(text = "PIB per capita (PPA, 2016) - K Intl. $"),
            gridLineWidth = 0,
            plotLines = list(list(label = list(text = "c25"),
                                  value = as.numeric(q_PPA["25%"]),
@@ -237,7 +275,7 @@ hc <- highchart() %>%
                                  width = 1,
                                  zIndex = 11,
                                  dashStyle = "ShortDot"))) %>%
-  hc_xAxis(title = list(text = "%GDP (2013)"),
+  hc_xAxis(title = list(text = "Intensidad I+D (%PIB, 2013)"),
            plotLines = list(list(label = list(text = "c25"),
                                  value = as.numeric(q_Exp_GDP["25%"]),
                                  color = "#FF0000",
@@ -327,9 +365,12 @@ saveWidget(hc,
 ### Semipublic sources of RD funds
 tmp <- as.data.frame(RD_pGERD[,"2013",c("HES", "GS"), drop = FALSE])
 tmp <- tmp[apply(tmp, 1, function(x) sum(is.na(x)) < 2), ]
-hc <- hc_stackBP(tmp[order(tmp[,2]+tmp[,1], decreasing = TRUE),],
+names(tmp) <- c("HES", "GS")
+tmp[is.na(tmp$HES), "HES"] <- 0
+tmp <- tmp[order(tmp$HES + tmp$GS, decreasing = TRUE),]
+hc <- hc_stackBP(tmp[order(tmp$HES + tmp$GS, decreasing = TRUE),],
                  title = 'Orígenes "Publicos" de fondos para I+D',
-                 labY = "% Gasto Total en I+D", sumLine = FALSE)
+                 labY = "% Gasto Total en I+D", sumLine = TRUE)
 hc
 save(hc, file = "./WIDGETS/RD_PubpGERD_by_sector.Rda")
 
@@ -337,3 +378,19 @@ saveWidget(hc,
            file = "RD_PubpGERD_by_sector.html", 
            selfcontained = TRUE) 
 
+## Differential scatter plot
+
+
+##
+main_c_zoom$GDP_PPP <- PPA_RD_Exp_GDP[main_countries, "PPA"]
+main_c_zoom$RD_GDP_PPP <- PPA_RD_Exp_GDP[main_countries, "AbsGDP"]
+
+tmp <- sapply(dplyr::select(main_c_zoom, Abroad, HES, GS, PNPS, BES),
+       function(x) x*main_c_zoom$RD_GDP_PPP/100)
+colnames(tmp) <- paste0("Abs_", colnames(tmp))
+main_c_zoom <- cbind(main_c_zoom, tmp)
+
+save(main_c_zoom, file = "./main_c_zoom2013.Rda")
+
+t(apply(main_c_zoom[,7:13], 1, 
+      function(x) x/as.numeric(main_c_zoom["Spain", 7:13])))

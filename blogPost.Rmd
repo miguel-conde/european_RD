@@ -16,11 +16,13 @@ output:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
+# Executive Summary
+
+# Motivación
+
 La expresión [¡Que inventen ellos!][QIE] sirve para resumir la realidad de la Ciencia y la Tecnología en España desde la [Revolución Científica][LRC] hasta hoy.
 
 La crisis internacional que se inició entre 2007 y 2008 ha vuelto a poner sobre la mesa esta realidad: por un lado, por ejemplo, se [reivindica el mantenimiento de la inversión pública en I+D+i][N1] y [se exigen con marchas en toda España más inversión y apoyo a la investigación][N2]; por otro, se llega a plantear la necesidad de cambiar el modelo productivo para pasar del modelo actual, extensivo en trabajadores, a otro intensivo en tecnología que permita aumentar la productividad.
-
-# El planteamiento
 
 Si acudimos a [Eurostat][EUS], encontramos que en 2014 España gastó el 1,24% de su Producto Interior Bruto en I+D+i. Nuestra posición en relación a los principales países de nuestro entorno puede verse en el siguiente gráfico:
 
@@ -48,14 +50,20 @@ Acudiendo a los datos que nos proporciona Eurostat, vamos a intentar reflexionar
 
 # Los datos
 
-Utilizaremos dos tipos de datos entre los ofrecidos por [Eurostat][EUS]:
+Los datos que se manejan son los siguientes:
 
+* De [Eurostat][EUS]:
+    + La **intensidad** de las actividades de I+D se mide mediante el Gasto en I+D expresado como porcentaje del PIB.
+    + El **volumen de inversión en I+D** se analiza según los procentajes de tal volumen provenientes de cada *performace* sector.
+  
+* Del [Fondo Monetario Internacional][FMI]
+    + **Producto interior bruto (PIB) [total][FMI2] y [per capita][pcGDP_PPP], a valores de [paridad de poder adquisitivo (PPA)][PPA]**, expresado en *[international dollars][IDOL]*. De esta manera es factible comparar PIBs entre países, ya que se tienen en cuenta tanto las diferencias en nivel de vida y tasas de inflación entre ellos.
 
-## **Gasto en I+D por sectores de aplicación - % del PIB**
+## **Gasto en I+D por sectores de aplicación - % del PIB** ([Eurostat][EUS])
 
 Incluye todo los gastos dedicados a I+D en cualquiera de los sectores del territorio nacional durante un periodo determinado, *independientemente del **origen de los fondos** *
 
-El Gasto en I+D se muestra como porcentaje del PIB (intensidad en I+D) y se desglosa en los siguientes sectores:
+El Gasto en I+D se muestra como porcentaje del PIB (**intensidad en I+D**) y se desglosa en los siguientes sectores:
 
 
 - *Business Enterprise Sector (BES) = industry*. El Sector "Empresas Comerciales".
@@ -65,111 +73,15 @@ El Gasto en I+D se muestra como porcentaje del PIB (intensidad en I+D) y se desg
 
 (Las definiciones de los diferentes sectores pueden encontrarse en el [Manual Frascati][MF] de la OECDE)
 
-### Aplicación al caso de España:
-```{r echo = FALSE}
-load(file = "./WIDGETS/RD_Exp_Spain_by_sector_2013.Rda")
-hc
-```
 
-Por ejemplo, el gasto total en I+D en España en 2013 fue del 1.27% del PIB, que corresponde a 0.67% en el sector BES, 0.36% en el HES y 0.24% en el GS.
-
-La Intensidad de Gasto Total en I+D alcanzó su máximo en 2009 con un 1.35% del PIB y luego ha ido descendiendo lentamente hasta el 1.21% en 2015 (niveles de 2006-7).
-
-La Intensidad de Gasto en I+D del sector Administraciones Públicas llegó a su máximo, 0.27%, en 2009 y 2010, para volver en 2015 a niveles de 2007-2008, 0.23%.
-
-La Intensidad de Gasto en I+D del sector Educación Superior llegó a su máximo, 0.38%, también en 2009 y 2010, para volver en 2015 a niveles de 2007-2008, 0.34%.
-
-Por último, la Intensidad de Gasto en I+D del sector Empresas Comerciales llegó a su máximo en 2008 con un 0.72% y en 2015 se encuentra a niveles de 2005-06 con un 0.64%.
-
-
-
-## **Gasto interior bruto en I+D por origen de los fondos - % del Gasto en I+D**
+## **Gasto interior bruto en I+D por origen de los fondos - % del Gasto en I+D** ([Eurostat][EUS])
 
 El Gasto en I+D referido en el punto anterior se desglosa aquí por el **origen de los fondos**, es decir, según los sectores de los que provengan los fondos empleados en I+D. Se expresa como un porcentaje del Gasto Total en I+D.
 
 A los 4 sectores anteriores se añade ahora un 5º, el sector *Abroad*,  "Exterior".
 
-### Aplicación al caso de España:
-```{r echo = FALSE}
-load(file = "./WIDGETS/RD_pGERD_Spain_by_sector_2013.Rda")
-hc
-```
-Por ejemplo, los fondos para I+D en España en 2013 provinieron del sector Empresas Comerciales en un 46.3%; del Sector Privado sin Ánimo de Lucro en un 0.6%; del sector Administraciones Públicas en un 41.6%; del sector Educación Superior en un 4.1%; y del Exterior, en un 7.4%.
 
-EL porcentaje de fondos del sector Empresas Comerciales bajó hasta un mínimo del 
-43% en 2010 para recuperarse en 2014 hasta niveles de 2006-07, 46.4%.
-
-EL porcentaje de fondos del sector Administraciones Públicas alcanzó un máximo del 47.9% en 2009 para volver en 2014 a niveles de 2004-05, 41.4%. 
-
-EL porcentaje de fondos del sector Educación Superior bajó hasta un mínimo del 
-3.2 % en 2008 para recuperarse en 2014 hasta niveles de 2005, 4.1%.
-
-El porcentaje de fondos proveniente del Exterior bajó hasta un 5.5% en 2009. En 2013 y 2014 supera todos los niveles previos, llegando al 7.4%.
-
-### Aplicación: relación entre el Gasto Total en I+D y la actividad y la inversión privadas
-En el siguiente gráfico podemos ver el desglose, por sectores y países, del Gasto en I+D en 2013. La particularidad es que están ordenados de mayor - izquierda - a menor - derecha - aportación porcentual (origen de fondos) del sector *Business Enterprise Sector (BES)*
-
-```{r echo = FALSE}
-load( file = "./WIDGETS/RD_Exp_by_country_sector_2013.Rda")
-hc
-```
-Es interesante hacer notar que, en general, los países cuyo sector Empresas Comerciales aportan más al Gasto I+D son aquellos cuyo Gasto Total en I+D es mayor.
-
-
-Y en este otro gráfico el desglose por sectores corresponde al origen de los fondos para I+D en todos los países en 2013. En este caso está ordenado, también de izquierda a derecha en orden decreciente del Gasto Total en I+D.
-
-```{r echo = FALSE}
-load( file = "./WIDGETS/RD_pGERD_by_country_sector_2013.Rda")
-hc
-```
-Lo que nos reafirma en la idea anterior: la aportación del sector Empresas Comercialesy el Gasto Total en I+D están fuerte y positivamente correlacionados. En efecto, por ejemplo en 2013 (todos los países). La tabla de correlación entre el Gasto Total en I+D y los componentes de los Orígenes de Fondos I+D es:
-
-```{r echo = FALSE, warning = FALSE}
-source("hc_functions.R")
-
-source("readExcelData.R")
-
-
-### Gasto en I+D por países - 2014
-RD_Exp_GDP <- get_RD_Exp_GDP()
-RD_pGERD   <- get_RD_RD_pGERD()
-myData <- as.data.frame(RD_pGERD[,"2013", ])
-myData <- myData[apply(myData, 1, function(x) sum(is.na(x[-1]))) < 4, ]
-myData <- myData[order(myData$BES, decreasing = TRUE), ]
-
-## CORR and LM
-countries <- intersect(rownames(myData), dimnames(RD_Exp_GDP)[["Country"]])
-GDP_DF <- data.frame(Gasto_Total = RD_Exp_GDP[countries,"2013","AllS"], 
-                     BES = myData[countries,]$BES,
-                     GS = myData[countries,]$GS, 
-                     HES = myData[countries,]$HES, 
-                     PNPS = myData[countries,]$PNPS,
-                     BES_PNPS = (myData[countries,]$BES +myData[countries,]$PNPS),
-                     GS_HES = (myData[countries,]$GS + myData[countries,]$HES))
-library(knitr)
-kable(cor(GDP_DF, use = "complete.obs")[1,-1,drop=FALSE])
-```
-
-Y algunos modelos de regresión lineal (Gasto Total en I+D ~ Componentes Origen de Fondos I+D):
-```{r echo = FALSE, message = FALSE}
-lm1 <- lm(Gasto_Total ~ BES-1, data = GDP_DF)
-lm2 <- lm(Gasto_Total ~ GS-1, data = GDP_DF)
-lm3 <- lm(Gasto_Total ~ GS_HES - 1, data = GDP_DF)
-lm4 <- lm(Gasto_Total ~ BES_PNPS - 1, data = GDP_DF)
-
-require(memisc)
-mtable123 <- format(mtable('Modelo BES' = lm1,
-                           'Modelo GS' = lm2,
-                           'Modelo GS & HES' = lm3,
-                           'Modelo BES & PNPS' = lm4,
-                           summary.stats = c('R-squared','F','p','N')),
-                    target = "HTML")
-require(pander)
-pander(mtable123)
-```
-
-
-## Producto interno bruto (PIB) a valores de paridad de poder adquisitivo 
+## Producto interno bruto (PIB) a valores de paridad de poder adquisitivo (FMI)
 
 Se han utilizado también estadísticas sobre el PIB, en concreto  [List of countries by GDP (PPP) per capita][pcGDP_PPP] y  [List of countries by GDP (PPP)][GDP_PPP] obtenidas del [Fondo Monetario Internacional – 2016][FMI].
 
@@ -178,112 +90,22 @@ GDP (PPP) significa *gross domestic product* ([*at purchasing power parity*][PPP
 *Comparisons of national wealth are frequently made on the basis of nominal GDP and savings (not just income), which do not reflect differences in the cost of living in different countries; hence, using a PPP basis is arguably more useful when comparing generalized differences in living standards between nations because PPP takes into account the relative cost of living and the inflation rates of the countries, rather than using only exchange rates, which may distort the real differences in income. This is why GDP (PPP) per capita is often considered one of the indicators of a country’s standard of living.*
 *Data are in millions of [international dollars][IDOL]: a hypothetical unit of currency that has the same purchasing power parity that the U.S. dollar had in the United States at a given point in time. It is widely used in economics.*
 
-### Aplicación al caso de España
 
-Estos datos sobre el PIB nos sirven para ver la evolución del Gasto y el Origen de Fondos para I+D en España en **valor absouto**.
+# Parte 1: Evolución de la I+D en España durante los años 2004-15
 
-```{r echo = FALSE}
-load(file = "./WIDGETS/RD_AbsExp_Spain_by_sector.Rda")
-hc
-```
+# Parte 2: Inversión en I+D: pública vs. privada
 
-Aquí podemos ver que:
+# Parte 3: Mapa estratégico
 
-* El Gasto Total en I+D alcanzó sus máximos en 2008-11, bajando posteriormente más o menos un 5%) desde 2012 a 2014. En 2015 había vuelto a los niveles de 2007-8.
-
-* El Gasto en I+D en el sector Empresas Comerciales alcanzó su máximo en 2008 y en 2015 había vuelto a niveles de 2007.
-
-* El Gasto en I+D en el sector Administraciones Públicas alcanzó su máximo en 2010 y en 2015 había vuelto a niveles de 2008.
-
-* El Gasto en I+D en el sector Educación Superior alcanzó su máximo en 2010 y se ha mantenido muy estable desde 2012, en niveles de 2008.
-
-```{r echo = FALSE}
-load(file = "./WIDGETS/RD_AbspGERD_Spain_by_sector.Rda")
-hc
-```
-
-* Los fondos destinados a I+D provenientes del sector Empresas Comerciales alcanzaron su máximo en 2008 y se han mantenido muy estables desde 2009, en niveles superiores a los de 2007.
-
-* Los fondos destinados a I+D provenientes del sector Administraciones Públicas alcanzaron su máximo en 2009 y 2010 y volvieron a niveles de 2007 en 2013 y 2014.
-
-* Los fondos destinados a I+D provenientes del sector Educación Superior alcanzaron su máximo en 2011 y se han mantenido en niveles superiores a los de antes de la crisis.
-
-* Los fondos destinados a I+D provenientes del sector Exterior superan los niveles de 2007 desde 2011.
+# Conclusiones relativas a España
 
 
-Aunque tanto el sector Empresas Comerciales como el sector Eduación Superior comprenden empresas e instituciones que pueden ser públicas o privadas, podemos estimar la inversión pública como la suma de los sectores Administraciones Públicas y Educación Superior y la privada como la suma de los sectores Empresas Comerciales y Privado sin Ánimo de Lucro. En tal caso:
 
-* La inversión pública alcanzó su máximo en 2010, disminuyendo posteriormente un 15% hasta 2014 (es decir, hasta niveles de 2007).
 
-* La inversion privada llegó a su máximo en 2008 y luego se mantuvo prácticamente constante, siempre por encima de los niveles previos a 2008.
 
-# El gráfico
 
-El gráfico que vamos a utilizar para nuestro análisis es el siguiente:
 
-```{r echo = FALSE, message=FALSE}
-load(file = "./WIDGETS/hc_pcPPP-GERD.Rda")
-library(highcharter)
-hc
-```
 
-Expliquemos sus componentes:
-
-* La **información básica** del gráfico se expresa mediante un **gráfico de dispersión** cuyos puntos, cada uno de ellos correspondiente a un país, vienen dados por las siguientes coordenadas:
-    + *R+D Effort* expresado como *R&D Expenditure (All Sectors, 2013)* y medido en % sobre el GDP.
-    + *Per capita GDP (PPP, 2016)*, expresado en miles de dólares internacionales.
-   
-* Las **líneas rojas** verticales (2) y horizontales (2) se corresponden con los **centiles 25 y 75** de las variables en abscisas y ordenadas.
-    + Consideraremos que los países  bajo la línea horizontal del centil 25 son países de "renta baja", los situados entre las líneas horizontales de los centiles 25 y 75 son países de "renta media" y los situados por encima de la linea horizontal del centil 75 son países de "renta alta".
-    + De la misma manera, los países a la izquierda de la línea vertical del centil 25 son países con "I+D baja", los situados entre las líneas verticales de los centiles 25 y 75 son países con "I+D media" y los situados a la derecha de la linea vertical del centil 75 son países con "I+D alta".
-    
-* Los **tamaños** de los círculos que representan a cada país son proporcionales a la **cantidad absoluta** (en dólares internacionales) **dedicada a I+D**.
-
-* El **color** de cada círculo da una idea del **% de capital privado presente en las fuentes de finaciación de la I+D en cada país**. Se han empleado los colores del arcoiris (rojo, naranja, amarillo, verde, cyan, azul y violeta) de manera que, cuanto más rojo, menos % de fuentes privadas de financiación y, cuanto más violeta, más fuentes privadas de financiación.
-
-* Si se pulsa, en la leyenda del gráfico, sobre "Per capita GDP ~ R&D Exp. Linear Fit", se mostrará la **recta de regresión lineal** con su área correspondiente al intervalo de confianza 95%.
-
-# La reflexión
-
-* Los cuadrantes "Renta alta - I+D baja" y "Renta baja - I+D alta" aparecen vacíos. Según parece:
-    + Si gastas poco en I+D, no eres rico; en otras palabras: si eres rico, no gastas poco en I+D.
-    + Si gastas mucho en I+D, no eres pobre; dicho de otra manera, si eres pobre, no gastas mucho en I+D.
-    
-## Por PIB per cápita - GDP (PPP, 2016)
-* Los países pobres gastan poco en I+D, y además el gasto lo hace principalmente el gobierno. La gran excepción es China, que se sitúa en un gasto I+D importante y sobre todo privado.
-* Niguno de los países ricos gasta poco en I+D. 
-* Entre ellos pueden distinguirse dos grupos:
-    + Gasto medio en I+D con componente privado medio-bajo (Luxemburgo, Irlanda, Noruega, Islandia y Holanda). Todos son países pequeños. Se ve que su modelo productivo no descansa únicamente en la tecnología. Son capaces de atraer capital (fiscalmente, como Luxemburgo e Irlanda; Noruega produce petróleo) que les permite adquirir tecnología y conocimiento sin necesidad de producirlos ellos. 
-    + Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia).
-* El tercer grupo (países moderadamente ricos) contiene países en todo el espectro de gasto en I+D: desde muy bajo (Chipre) hasta el más alto (Corea del Norte). Eso si, cuanto mayor es el gasto en I+D, mayor componente privada tiene.
-      
-## Por %GDP de gasto I+D
-* Los países que gastan poco en I+D principalmente lo hacen con medios públicos.
-    + Ninguno tiene alto PPP
-    + Los de PPP medio (Chipre, Malta) tienen el turismo como fuente alternativa de riqueza.
-    + Los demás son los más pobres (Montenegro, Rumania, Latvia, Bilgaria, Serbia, Croacia y, en el límite, Polonia)
-* Países con alto gasto en I+D
-    + Ninguno es pobre
-    + Algunos pueden considerarse ricos (USA, Alemania, Austria, Dinamarca, Suecia) y otros en la media (Bélgica, Eslovenia, Finlandia, Japón, Corea del Sur)
-    + Prácticamente todos tienen una alta compnente privada.
-    + Los que no pueden considerarse ricos o están en evolución (positiva: Corea del Sur; crisis, estancados: Japón) o son demasiado pequeños para sacar partido de lo que invierten en I+D (Bélgica, Eslovenia, Finlandia)
-* Países con gasto medio en I+D
-    + Ninguno es "pobre" excepto China (y, en el límite, Turquía, Hungría y China)
-    + Los que están en la media - como España - no parecen tener fuentes auxiliares de riqueza significativas (por lo productivo), Son "un poco de todo". La componente privada es moderada excepto en Francia.
-    
-
-## Posición respecto a la recta de regresión
-* Gasto alto en I+D (USA, Alemania, Austria, Dinamarca, Suecia)
-      
-## Por PPP absoluto
-
-## Por componente privada
-* 
-
-## España
-(Situación en el gráfico y evolución temporal)
-
-# Conclusiones
 
 
 
@@ -336,4 +158,6 @@ d_t
 [PPP]: <https://en.wikipedia.org/wiki/Purchasing_power_parity>
 [PPA]: <https://es.wikipedia.org/wiki/Paridad_de_poder_adquisitivo>
 [EUGS]: <http://ec.europa.eu/eurostat/web/science-technology-innovation/overview>
-[IDOL]: <https://en.wikipedia.org/wiki/Geary%E2%80%93Khamis_dollar
+[IDOL]: <https://es.wikipedia.org/wiki/Dolar_internacional>
+[FMI]: <https://en.wikipedia.org/wiki/International_Monetary_Fund>
+[FMI2]: <https://en.wikipedia.org/wiki/List_of_countries_by_past_and_projected_GDP_(PPP)> "List of countries by past and projected GDP (PPP)"

@@ -1,0 +1,93 @@
+---
+title: "Inversión en I+D: pública vs. privada"
+author: "Miguel Conde"
+date: "1 de junio de 2017"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+require(highcharter)
+```
+
+
+# Intensidad I+D y el origen público o privado de los fondos destinados a I+D
+
+Buscamos ahora relaciones entre la Intensidad I+D (% del PIB gastado en I+D) y el origen público o privado de los fondos destinados a I+D.
+
+En el siguiente gráfico podemos ver el desglose, por sectores y países, de la Intensidad I+D en 2013. La particularidad es que están ordenados de mayor - izquierda - a menor - derecha - aportación porcentual (origen de fondos) del sector *Business Enterprise Sector (BES)*, es decir, Empresas Comerciales.
+
+```{r echo = FALSE}
+load( file = "./WIDGETS/RD_Exp_by_country_sector_2013.Rda")
+hc
+```
+Es interesante hacer notar que, en general, los países cuyo sector Empresas Comerciales aporta más al Gasto I+D son aquellos cuyo Gasto Total (Intensidad) en I+D es mayor.
+
+
+Y en este otro gráfico el desglose por sectores corresponde al origen de los fondos para I+D en todos los países en 2013. En este caso está ordenado, también de izquierda a derecha en orden decreciente de la Intensidad I+D.
+
+```{r echo = FALSE}
+load( file = "./WIDGETS/RD_pGERD_by_country_sector_2013.Rda")
+hc
+```
+Lo que nos reafirma en la idea anterior: la aportación del sector Empresas Comerciales y el Gasto Total en I+D están fuerte y positivamente correlacionados. En efecto, por ejemplo en 2013 (todos los países). La tabla de correlación entre el Gasto Total en I+D y los componentes de los Orígenes de Fondos I+D es:
+
+```{r echo = FALSE, warning = FALSE}
+source("hc_functions.R")
+
+source("readExcelData.R")
+
+
+### Gasto en I+D por países - 2014
+RD_Exp_GDP <- get_RD_Exp_GDP()
+RD_pGERD   <- get_RD_RD_pGERD()
+myData <- as.data.frame(RD_pGERD[,"2013", ])
+myData <- myData[apply(myData, 1, function(x) sum(is.na(x[-1]))) < 4, ]
+myData <- myData[order(myData$BES, decreasing = TRUE), ]
+
+## CORR and LM
+countries <- intersect(rownames(myData), dimnames(RD_Exp_GDP)[["Country"]])
+GDP_DF <- data.frame(Gasto_Total_ID = RD_Exp_GDP[countries,"2013","AllS"], 
+                     BES = myData[countries,]$BES,
+                     GS = myData[countries,]$GS, 
+                     HES = myData[countries,]$HES, 
+                     PNPS = myData[countries,]$PNPS,
+                     BES_PNPS = (myData[countries,]$BES +myData[countries,]$PNPS),
+                     GS_HES = (myData[countries,]$GS + myData[countries,]$HES))
+library(knitr)
+kable(cor(GDP_DF, use = "complete.obs")[1,-1,drop=FALSE])
+```
+
+Y a continuación resumimos algunos modelos de regresión lineal (Intensidad Total I+D ~ Componentes Origen de Fondos I+D):
+```{r echo = FALSE, message = FALSE}
+lm1 <- lm(Gasto_Total_ID ~ BES-1, data = GDP_DF)
+lm2 <- lm(Gasto_Total_ID ~ GS-1, data = GDP_DF)
+lm3 <- lm(Gasto_Total_ID ~ GS_HES - 1, data = GDP_DF)
+lm4 <- lm(Gasto_Total_ID ~ BES_PNPS - 1, data = GDP_DF)
+
+require(memisc)
+mtable123 <- format(mtable('Modelo BES' = lm1,
+                           'Modelo GS' = lm2,
+                           'Modelo GS & HES' = lm3,
+                           'Modelo BES & PNPS' = lm4,
+                           summary.stats = c('R-squared','F','p','N')),
+                    target = "HTML")
+require(pander)
+pander(mtable123)
+```
+
+## Conclusión general
+Como ya hemos dicho anteriormente, aunque tanto el sector Empresas Comerciales como el sector Educación Superior comprenden empresas e instituciones que pueden ser públicas o privadas, podemos estimar la inversión pública como la suma de los sectores Administraciones Públicas y Educación Superior y la privada como la suma de los sectores Empresas Comerciales y Privado sin Ánimo de Lucro. 
+
+En tal caso podemos decir que:
+
+* Hay una correlación positiva muy significativa entre inversión privada e intensidad I+D.
+* La correlación entre inversión pública e intensidad I+D es significativa y negativa.
+
+No debería hacer falta recalcar que *correlación no implica causalidad*.
+
+## Conclusión para España
+
+* España obtiene fondos para inversión en I+D de manera acorde a su media-baja Intensidad I+D, es decir, con un bajo componente de fondos privados, unos 10 puntos porcentuales por debajo de la media europea y más de 15 puntos porcentuales por debajo de los países de mayor Intensidad I+D.
