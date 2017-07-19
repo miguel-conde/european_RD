@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
-En los post anteriores hemos visto que:
+En los artículos anteriores hemos visto que:
 
 * La intensidad I+D+i en España está totalmente en la línea con nuestro entrono europeo.
 * Durante la crisis:
